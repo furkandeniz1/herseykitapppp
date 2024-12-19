@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kitap Satışı</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e0f7fa;
+            color: #00796b;
+            padding: 20px;
+        }
+
+        button {
+            background-color: #00796b;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #004d40;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .error {
+            color: red;
+            display: none;
+        }
+
+        #cart-items {
+            margin-bottom: 20px;
+        }
+
+        #cart-total {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- Ana Sayfa -->
+    <div id="home">
+        <h1>Kitap Satışı</h1>
+        <div>
+            <button onclick="showBooks('Korku-Gerilim')">Korku ve Gerilim</button>
+            <button onclick="showBooks('Macera-Bilim')">Macera ve Bilim</button>
+            <button onclick="showBooks('Kişisel-Gelişim')">Kişisel Gelişim</button>
+            <button onclick="showBooks('Polisiye')">Polisiye</button>
+            <button onclick="showBooks('Aşk')">Aşk</button>
+        </div>
+    </div>
+
+    <!-- Kitap Listesi -->
+    <div id="book-list" class="hidden">
+        <button onclick="goBackToHome()">Geri</button>
+        <div id="books"></div>
+    </div>
+
+    <!-- Sepet -->
+    <div id="cart" class="hidden">
+        <h2>Sepetiniz</h2>
+        <div id="cart-items"></div>
+        <p>Toplam: <span id="cart-total">0</span>₺</p>
+        <button onclick="proceedToPayment()">Ödemeye Geç</button>
+        <button onclick="clearCart()">Sepeti Temizle</button>
+    </div>
+
+    <!-- Ödeme Formu -->
+    <div id="payment-form" class="hidden">
+        <h2>Ödeme Bilgileri</h2>
+        <form id="personal-info-form" onsubmit="event.preventDefault(); validatePersonalInfo();">
+            <label for="address">Adres:</label>
+            <input type="text" id="address" required><br>
+            <span id="address-error" class="error">* Zorunlu alan</span><br>
+
+            <label for="email">E-posta:</label>
+            <input type="email" id="email" required><br>
+            <span id="email-error" class="error">* Geçersiz e-posta</span><br>
+
+            <label for="phone">Telefon:</label>
+            <input type="text" id="phone" required><br>
+            <span id="phone-error" class="error">* Geçersiz telefon numarası</span><br>
+
+            <button type="submit">Devam Et</button>
+        </form>
+
+        <div id="payment-error" class="error">* Kart bilgilerini eksiksiz girin</div>
+        <form id="payment-details" class="hidden" onsubmit="event.preventDefault(); processOrder();">
+            <label for="card-number">Kart Numarası:</label>
+            <input type="text" id="card-number" maxlength="16" required><br>
+            <label for="expiry-date">Son Kullanma Tarihi:</label>
+            <input type="text" id="expiry-date" maxlength="5" required><br>
+            <label for="cvv">CVV:</label>
+            <input type="text" id="cvv" maxlength="3" required><br>
+            <label for="card-holder-name">Kart Sahibi:</label>
+            <input type="text" id="card-holder-name" required><br>
+            <button type="submit">Siparişi Tamamla</button>
+        </form>
+    </div>
+
+    <!-- Sipariş Onayı -->
+    <div id="order-confirmation" class="hidden">
+        <h2>Sipariş Onayı</h2>
+        <p id="order-id"></p>
+        <p id="order-address"></p>
+        <p id="order-contact"></p>
+        <p id="order-card-last4"></p>
+        <p id="order-card-type"></p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
